@@ -12,5 +12,5 @@
     ]
   },
   "include": ["./scripts", "./test", "./typechain", "./imageNFT"],
-  "files": ["./hardhat.config.ts", ".imageNFT/custom.d.ts"]
+  "files": ["./hardhat.config.ts"]
 }

@@ -72,7 +72,7 @@ task('rename-contract', 'Renames the smart contract replacing all occurrences in
 
 const config: HardhatUserConfig = {
   solidity: {
-    version: '0.8.12',
+    version: '0.8.17',
     settings: {
       optimizer: {
         enabled: true,

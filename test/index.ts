@@ -1,19 +1,34 @@
-import { expect } from "chai";
 import { ethers } from "hardhat";
+import { utils } from "ethers";
+import Configuration from "../config/Configuration";
+import ContractArguments from "../config/ContractArgument";
+import { NftContractType } from "../lib/NftContractProvider";
+import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 
-describe("Greeter", function () {
-  it("Should return the new greeting once it's changed", async function () {
-    const Greeter = await ethers.getContractFactory("Greeter");
-    const greeter = await Greeter.deploy("Hello, world!");
-    await greeter.deployed();
+const gassfee = {gasPrice: utils.parseUnits('100', 'gwei'), gasLimit: 1000000};
 
-    expect(await greeter.greet()).to.equal("Hello, world!");
+describe(Configuration.contractName, function () {
+  let owner!: SignerWithAddress;
+  let user!: SignerWithAddress;
+  let contract!: NftContractType;
 
-    const setGreetingTx = await greeter.setGreeting("Hola, mundo!");
+  before(async function() {
+    [owner, user] = await ethers.getSigners();
+  });
 
-    // wait until the transaction is mined
-    await setGreetingTx.wait();
+  it("Deploy contract", async function () {
+    const Contract = await ethers.getContractFactory(Configuration.contractName, owner);
+    contract = await Contract.deploy(...ContractArguments) as NftContractType;
 
-    expect(await greeter.greet()).to.equal("Hola, mundo!");
+    await contract.deployed(), gassfee;
+  });
+
+  it("Minting NFT", async function () {
+    await contract.connect(user).claimNftParcel("Harvest Moon", "Large", "3d", "My Riad Town");
+  });
+
+  it("Print URI", async function () {
+    const Uri = await contract.connect(owner).tokenURI(1);
+    console.log(Uri);
   });
 });
