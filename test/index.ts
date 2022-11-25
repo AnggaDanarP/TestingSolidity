@@ -24,7 +24,7 @@ describe(Configuration.contractName, function () {
   });
 
   it("Minting NFT", async function () {
-    await contract.connect(user).claimNftParcel("Harvest Moon", "Large", "3d", "My Riad Town");
+    await contract.connect(user).claimNftParcel("Large", "3d", "My Riad Town");
   });
 
   it("Print URI", async function () {
