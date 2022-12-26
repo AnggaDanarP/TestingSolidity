@@ -1,20 +1,25 @@
-import * as fs from 'fs';
-import * as path from 'path';
 import CollectionConfigInterface from "../lib/InterfaceConfig";
 import * as Networks from "../lib/Network";
 import * as Marketplace from "../lib/Marketplace";
-
-const fileContents = fs.readFileSync(path.resolve('./imageNFT/example.svg'), 'utf8');
+import whitelistAddresses from './whitelist.json';
 
 const Configuration: CollectionConfigInterface = {
     testnet: Networks.polygonTestnet,
     mainet: Networks.polygonMainnet,
-    contractName: "NftParcelMetaverse",
+    contractName: "RealityChain",
     tokenName: "TestingMeta",
     tokenSymbol: "TMT",
-    metadata: fileContents,
-    //metadata: '<svg height="100" width="100"><circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" /> </svg>',
-    contractAddress: "0xAEfe55E7cfA9266B4A2c2DBf52f23A721F2702A9",
+    hiddenMetadataUri: 'ipfs://__CID__/hidden.json',
+    maxSupply: 10000,
+    whitelistSale: {
+        price: 0.05,
+        maxMintAmountPerTx: 1,
+      },
+      publicSale: {
+        price: 0.09,
+        maxMintAmountPerTx: 5,
+      },
+    contractAddress: "0xBA0Cc0d0Ed76d0f63E6207a9156600BEa415Ab73",
     marketplaceIdentifier: "This is only demo nft for building metaverse",
     marketplaceConfig: Marketplace.openSea,
 };

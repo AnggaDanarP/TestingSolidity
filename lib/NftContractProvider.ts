@@ -1,4 +1,4 @@
-import { NftParcelMetaverse as ContractType } from '../typechain/index';
+import { RealityChain as ContractType } from '../typechain/index';
 
 import { ethers } from "hardhat";
 import CollectionConfig from "./../config/Configuration";

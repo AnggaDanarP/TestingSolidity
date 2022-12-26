@@ -26,16 +26,6 @@ export const ethereumTestnet: NetworkConfigInterface = {
     },
 }
 
-export const ethereumLegacyTestnet: NetworkConfigInterface = {
-    chainId: 4,
-    symbol: "ETH (test)",
-    blockExplorer: {
-        name: "Etherscan (Rinkeby)",
-        generatorContractUrl: (contractAddress: string) => `https://rinkeby.etherscan.io/address/${contractAddress}`,
-        generateTransactionUrl: (transactionAddress: string) => `https://rinkeby.etherscan.io/tx/${transactionAddress}`,
-    },
-}
-
 export const ethereumMainnet: NetworkConfigInterface = {
     chainId: 1,
     symbol: "ETH",
