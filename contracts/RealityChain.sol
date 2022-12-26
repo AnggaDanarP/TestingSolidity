@@ -137,6 +137,18 @@ contract RealityChain is ERC721Enumerable, Ownable {
         return world[typeLand][size];
     }
 
+    function _getTokenIdMinting(TypeLand typeLand, Size size)
+        private
+        view
+        returns (uint256)
+    {
+        unchecked {
+            return
+                _currentToken(typeLand, size) +
+                _getSpecLand(typeLand, size).startTokenId;
+        }
+    }
+
     /**
      * ==============================================================================
      *                                   WITHDRAW
@@ -171,14 +183,14 @@ contract RealityChain is ERC721Enumerable, Ownable {
         TypeLand typeLand,
         Size size
     ) internal onlyEOA(_msgSender()) mintCompliance(typeLand, size) {
-        uint256 tokenId = _currentToken(typeLand, size) +
-            _getSpecLand(typeLand, size).startTokenId;
+        uint256 tokenId = _getTokenIdMinting(typeLand, size);
         _incrementToken(typeLand, size);
         _mint(_msgSender(), tokenId);
         _setTokenURI(tokenId, assetId, "");
         emit MintParcel(tokenId, assetId);
     }
 
+    // 2D World Minting
     function mintSmall2d(uint256 assetId) public {
         mintParcelOneOwner(assetId, TypeLand.d2, Size.Small);
     }
@@ -191,6 +203,7 @@ contract RealityChain is ERC721Enumerable, Ownable {
         mintParcelOneOwner(assetId, TypeLand.d2, Size.Large);
     }
 
+    // 3D World Minting
     function mintSmall3d(uint256 assetId) public {
         mintParcelOneOwner(assetId, TypeLand.d3, Size.Small);
     }
@@ -320,6 +333,8 @@ contract RealityChain is ERC721Enumerable, Ownable {
     }
 
     function _incrementToken(TypeLand typeLand, Size size) internal {
-        Counters.increment(_counterLand(typeLand, size));
+        unchecked {
+            Counters.increment(_counterLand(typeLand, size));
+        }
     }
 }
